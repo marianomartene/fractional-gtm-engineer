@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free lead finder — 15 of your ideal customers, each with a live buying signal</title>
+<meta name="description" content="Tell me your SaaS and who you sell to. I'll send back a free list of ~15 companies that fit your ICP and are showing a live buying signal right now. Built by a Fractional GTM Engineer.">
+<meta property="og:title" content="Free lead finder — 15 ideal-fit companies with a live buying signal">
+<meta property="og:description" content="Your SaaS + who you sell to, in. A free list of ~15 ideal customers showing a buying signal now, out.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://tools.marianomartene.com/lead-finder/">
+<link rel="icon" href="https://marianomartene.com/content/images/size/w256h256/2026/06/green-pfp-1.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<!-- one endpoint to set live. see FORM_ENDPOINT below. everything else is done. -->
+<style>
+  :root{
+    --bg:#040804; --bg2:#07120a; --faint:#16341f; --dim:#3f8c57; --ink:#c7ffd4;
+    --hot:#39ff14; --glow:57,255,20; --amber:#ffb000; --amberglow:255,176,0;
+    --display:'Space Grotesk',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+    --arcade:'Press Start 2P',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:radial-gradient(120% 70% at 50% 0%,var(--bg2),var(--bg) 60%,#000);color:var(--ink);
+    font-family:var(--mono);line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;mix-blend-mode:overlay;opacity:.32;
+    background:repeating-linear-gradient(to bottom,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.5) 3px,rgba(0,0,0,0) 4px)}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:59;background:radial-gradient(130% 100% at 50% 40%,transparent 55%,rgba(0,0,0,.55))}
+  .wrap{max-width:720px;margin:0 auto;padding:0 24px 72px;position:relative;z-index:1}
+  .termbar{display:flex;align-items:center;gap:14px;padding:18px 0 14px;border-bottom:1px solid rgba(var(--glow),.2);
+    position:sticky;top:0;background:rgba(4,8,4,.86);backdrop-filter:blur(8px);z-index:40;font-size:13px;color:var(--dim)}
+  .termbar .dots{display:flex;gap:8px}
+  .termbar .dots i{width:12px;height:12px;border:2px solid var(--dim);display:block}
+  .termbar .dots i:first-child{background:var(--hot);border-color:var(--hot);box-shadow:0 0 9px rgba(var(--glow),.8)}
+  .termbar .tag{margin-left:auto;color:var(--hot);font-family:var(--arcade);font-size:10px;letter-spacing:.04em}
+  .termbar a{color:var(--dim);text-decoration:none}
+  .termbar a:hover{color:var(--ink)}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(1.9rem,5vw,2.9rem);letter-spacing:-.02em;line-height:1.02;margin:40px 0 14px;text-wrap:balance}
+  h1 .hot{color:var(--hot);text-shadow:0 0 26px rgba(var(--glow),.5)}
+  .sub{font-size:1rem;color:var(--dim);max-width:60ch;margin-bottom:14px}
+  .sub b{color:var(--ink);font-weight:650}
+  .how{list-style:none;display:grid;gap:8px;margin:0 0 26px;font-size:.9rem;color:var(--dim)}
+  .how li{display:flex;gap:12px;align-items:baseline}
+  .how .n{color:var(--hot);font-weight:700;font-family:var(--display)}
+  .panel{border:1px solid rgba(var(--glow),.2);background:rgba(7,18,10,.5);padding:24px}
+  .fld{margin-bottom:18px}
+  .fld label{display:block;font-size:.9rem;color:var(--ink);margin-bottom:7px;font-weight:650}
+  .fld .req{color:var(--hot)}
+  .fld .hint{color:var(--dim);font-weight:400;font-size:.8rem}
+  .fld input,.fld textarea{width:100%;font:inherit;font-family:var(--mono);border:1px solid var(--faint);background:rgba(0,0,0,.35);
+    color:var(--ink);padding:12px 13px;resize:vertical}
+  .fld input:focus,.fld textarea:focus{outline:0;border-color:var(--hot);box-shadow:0 0 0 1px rgba(var(--glow),.4),0 0 12px rgba(var(--glow),.18)}
+  .fld input::placeholder,.fld textarea::placeholder{color:#2c6b40}
+  .btn{font:inherit;font-family:var(--mono);font-weight:700;font-size:.95rem;letter-spacing:.02em;cursor:pointer;
+    width:100%;color:#031006;background:var(--hot);border:1px solid var(--hot);padding:15px;box-shadow:0 0 18px rgba(var(--glow),.3)}
+  .btn:hover{box-shadow:0 0 28px rgba(var(--glow),.5)}
+  .btn:disabled{opacity:.5;cursor:default;box-shadow:none}
+  .fineprint{font-size:.78rem;color:var(--dim);margin-top:14px;text-align:center}
+  .ok{display:none;text-align:center;padding:20px 0}
+  .ok.show{display:block}
+  .ok .big{font-family:var(--display);font-weight:700;font-size:clamp(1.4rem,4vw,2rem);color:var(--hot);text-shadow:0 0 24px rgba(var(--glow),.4);line-height:1.1}
+  .ok .p{font-size:.95rem;color:var(--ink);max-width:48ch;margin:12px auto 0}
+  .ok .next{margin-top:22px;font-size:.9rem}
+  .ok .next a{color:var(--hot)}
+  .err{color:var(--amber);font-size:.85rem;margin-top:12px;text-align:center;display:none}
+  .err.show{display:block}
+  .foot{margin-top:26px;font-size:.78rem;color:var(--dim);border-top:1px solid rgba(var(--glow),.16);padding-top:16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .foot a{color:var(--hot);text-decoration:none}
+  .foot a:hover{text-decoration:underline}
+</style>
+
+<div class="wrap">
+  <div class="termbar"><span class="dots"><i></i><i></i><i></i></span><a href="../">~/mm — lead-finder.sh</a><span class="tag">GTM</span></div>
+
+  <h1>15 of your ideal customers. <span class="hot">Each with a reason to reach out now.</span></h1>
+  <p class="sub">Tell me your SaaS and who you sell to. I build you a free list of about 15 companies that fit your ICP <b>and</b> are showing a live buying signal right now, then send it to your inbox. You keep it, no strings.</p>
+
+  <ul class="how">
+    <li><span class="n">1</span> You give me your site and your best-customer profile.</li>
+    <li><span class="n">2</span> I run my signal engine against your market.</li>
+    <li><span class="n">3</span> You get a scored list, each account with a live signal and a why-now.</li>
+  </ul>
+
+  <section class="panel">
+    <form id="form" novalidate>
+      <div class="fld">
+        <label for="email">Your email <span class="req">*</span> <span class="hint">where the list goes</span></label>
+        <input id="email" name="email" type="email" required placeholder="you@yoursaas.com" autocomplete="email">
+      </div>
+      <div class="fld">
+        <label for="website">Your SaaS website <span class="req">*</span></label>
+        <input id="website" name="website" type="text" required placeholder="yoursaas.com" autocomplete="url">
+      </div>
+      <div class="fld">
+        <label for="icp">Your ideal customer, in one line <span class="req">*</span> <span class="hint">who do you want 10 more of?</span></label>
+        <textarea id="icp" name="icp" rows="2" required placeholder="e.g. Series A B2B SaaS, 20-100 people, US, with an outbound sales team"></textarea>
+      </div>
+      <div class="fld">
+        <label for="notes">Anything else? <span class="hint">geo, size, a great current customer to clone (optional)</span></label>
+        <textarea id="notes" name="notes" rows="2" placeholder="optional"></textarea>
+      </div>
+      <button class="btn" id="submit" type="submit">Send me my list</button>
+      <p class="fineprint">Free. Your email is used to send the list and the occasional useful thing. No spam.</p>
+      <p class="err" id="err">Something went wrong. Mail me at mariano@marianomartene.com and I'll build it by hand.</p>
+    </form>
+
+    <div class="ok" id="ok">
+      <div class="big">On it.</div>
+      <p class="p">Your list of ideal-fit accounts, each with a live buying signal, lands in your inbox, usually within a day or two. Keep it either way.</p>
+      <p class="next">While you wait, see what fixing your funnel is worth on your own numbers:<br><a href="../">→ the value calculator</a> &nbsp;·&nbsp; <a href="../diagnostic/">→ the 60-second GTM diagnostic</a></p>
+    </div>
+  </section>
+
+  <div class="foot"><span>Built by a Fractional GTM Engineer who'd rather show the work.</span><a href="https://marianomartene.com">marianomartene.com</a></div>
+</div>
+
+<script>
+(function(){
+  // ── SET THIS TO GO LIVE ──────────────────────────────────────────────
+  // Recommended: your n8n webhook URL (captures to Baserow/Twenty + can auto-run the give).
+  // No-infra fallback: a Formspree endpoint (https://formspree.io/f/xxxx).
+  var FORM_ENDPOINT = "REPLACE_WITH_YOUR_ENDPOINT";
+  // ─────────────────────────────────────────────────────────────────────
+  var form=document.getElementById('form'), ok=document.getElementById('ok'),
+      err=document.getElementById('err'), btn=document.getElementById('submit');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    err.classList.remove('show');
+    var email=document.getElementById('email').value.trim(),
+        website=document.getElementById('website').value.trim(),
+        icp=document.getElementById('icp').value.trim();
+    if(!email||!website||!icp||email.indexOf('@')<1){ err.textContent='Fill in email, website, and your ideal customer.'; err.classList.add('show'); return; }
+    btn.disabled=true; btn.textContent='Sending...';
+    var payload={email:email, website:website, icp:icp,
+      notes:document.getElementById('notes').value.trim(), source:'lead-finder', ts:new Date().toISOString()};
+    fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)})
+      .then(function(r){ if(!r.ok) throw new Error('bad status'); form.style.display='none'; ok.classList.add('show'); })
+      .catch(function(){ btn.disabled=false; btn.textContent='Send me my list'; err.classList.add('show'); });
+  });
+})();
+</script>
+</html>

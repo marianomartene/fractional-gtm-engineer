@@ -9,7 +9,10 @@
 <meta property="og:description" content="Fill in your funnel. See where you're leaking and what fixing it is worth in ARR. Free, no signup.">
 <meta property="og:type" content="website">
 <meta name="robots" content="index,follow">
-<link rel="canonical" href="https://marianomartene.github.io/fractional-gtm-engineer/">
+<link rel="canonical" href="https://tools.marianomartene.com/">
+<link rel="icon" href="https://marianomartene.com/content/images/size/w256h256/2026/06/green-pfp-1.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
 <!-- reading the source again? the whole thing runs client-side, nothing phones home.
      that's the point: a fractional GTM engineer builds tools you can actually inspect. -->
 <style>
@@ -18,6 +21,7 @@
     --hot:#39ff14; --glow:57,255,20; --amber:#ffb000; --amberglow:255,176,0;
     --display:'Space Grotesk',system-ui,sans-serif;
     --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+    --arcade:'Press Start 2P',monospace;
     --fs-hero:clamp(2.2rem,6vw,3.4rem);
   }
   *{margin:0;padding:0;box-sizing:border-box}
@@ -34,7 +38,7 @@
   .termbar .dots{display:flex;gap:8px}
   .termbar .dots i{width:12px;height:12px;border:2px solid var(--dim);display:block}
   .termbar .dots i:first-child{background:var(--hot);border-color:var(--hot);box-shadow:0 0 9px rgba(var(--glow),.8)}
-  .termbar .tag{margin-left:auto;color:var(--hot);font-weight:700;letter-spacing:.16em}
+  .termbar .tag{margin-left:auto;color:var(--hot);font-family:var(--arcade);font-size:10px;letter-spacing:.04em}
 
   h1{font-family:var(--display);font-weight:700;font-size:clamp(1.9rem,4.4vw,2.7rem);letter-spacing:-.02em;line-height:1;margin:40px 0 10px;text-wrap:balance}
   h1 .hot{color:var(--hot);text-shadow:0 0 26px rgba(var(--glow),.5)}
@@ -154,6 +158,7 @@
     </div>
   </section>
 
+  <p style="text-align:center;font-size:.82rem;color:var(--dim);margin:0 0 20px">more free tools &nbsp;·&nbsp; <a href="lead-finder/" style="color:var(--hot);text-decoration:none">get 15 leads with a live signal</a> &nbsp;·&nbsp; <a href="diagnostic/" style="color:var(--hot);text-decoration:none">the 60-second GTM diagnostic</a></p>
   <div class="foot"><span>Conservative numbers only. This is your own money on the table.</span><a href="https://marianomartene.com">marianomartene.com</a></div>
 </div>
 
@@ -270,6 +275,19 @@
   var tabEls=document.querySelectorAll('.tab');
   for(var i=0;i<tabEls.length;i++){ tabEls[i].addEventListener('click',function(){ setScn(this.getAttribute('data-scn')); }); }
   ['opps','qual','close','acv'].forEach(function(id){el(id).addEventListener('input',compute);});
+  (function(){ // pre-fill from the diagnostic hand-off
+    var p=new URLSearchParams(location.search);
+    if(p.get('motion')||p.get('opps')||p.get('acv')){
+      var m=p.get('motion'); if(m&&SCN[m]) setScn(m);
+      ['opps','acv','qual','close'].forEach(function(id){var v=p.get(id); if(v!==null&&v!=='') el(id).value=v;});
+      if(p.get('from')==='diagnostic'){
+        var b=document.createElement('div');
+        b.style.cssText='border-left:3px solid var(--hot);background:rgba(var(--glow),.06);padding:12px 14px;margin:0 0 18px;font-size:.9rem;color:var(--ink)';
+        b.textContent='From your diagnostic. Here is that leak, quantified on your own numbers.';
+        var anchor=document.querySelector('.tabs'); anchor.parentNode.insertBefore(b,anchor);
+      }
+    }
+  })();
   compute();
 })();
 </script>

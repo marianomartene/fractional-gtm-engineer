@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The 60-second GTM diagnostic — do you have the Process-Market Fit gap?</title>
+<meta name="description" content="Answer 6 questions about your funnel. See your Process-Market Fit gap free, then what fixing it is worth in ARR on your own numbers. Built by a Fractional GTM Engineer.">
+<meta property="og:title" content="The 60-second GTM diagnostic — Process-Market Fit gap">
+<meta property="og:description" content="6 questions. Your GTM gap, free. Then what fixing it is worth in ARR.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://tools.marianomartene.com/diagnostic/">
+<link rel="icon" href="https://marianomartene.com/content/images/size/w256h256/2026/06/green-pfp-1.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#040804; --bg2:#07120a; --faint:#16341f; --dim:#3f8c57; --ink:#c7ffd4;
+    --hot:#39ff14; --glow:57,255,20; --amber:#ffb000; --amberglow:255,176,0;
+    --display:'Space Grotesk',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+    --arcade:'Press Start 2P',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:radial-gradient(120% 70% at 50% 0%,var(--bg2),var(--bg) 60%,#000);color:var(--ink);
+    font-family:var(--mono);line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;font-variant-numeric:tabular-nums}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;mix-blend-mode:overlay;opacity:.32;
+    background:repeating-linear-gradient(to bottom,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.5) 3px,rgba(0,0,0,0) 4px)}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:59;background:radial-gradient(130% 100% at 50% 40%,transparent 55%,rgba(0,0,0,.55))}
+  .wrap{max-width:720px;margin:0 auto;padding:0 24px 72px;position:relative;z-index:1}
+  .termbar{display:flex;align-items:center;gap:14px;padding:18px 0 14px;border-bottom:1px solid rgba(var(--glow),.2);
+    position:sticky;top:0;background:rgba(4,8,4,.86);backdrop-filter:blur(8px);z-index:40;font-size:13px;color:var(--dim)}
+  .termbar .dots{display:flex;gap:8px}
+  .termbar .dots i{width:12px;height:12px;border:2px solid var(--dim);display:block}
+  .termbar .dots i:first-child{background:var(--hot);border-color:var(--hot);box-shadow:0 0 9px rgba(var(--glow),.8)}
+  .termbar .tag{margin-left:auto;color:var(--hot);font-family:var(--arcade);font-size:10px;letter-spacing:.04em}
+  .termbar a{color:var(--dim);text-decoration:none}
+  .termbar a:hover{color:var(--ink)}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(1.8rem,4.6vw,2.6rem);letter-spacing:-.02em;line-height:1.04;margin:38px 0 12px;text-wrap:balance}
+  h1 .hot{color:var(--hot);text-shadow:0 0 26px rgba(var(--glow),.5)}
+  .sub{font-size:.98rem;color:var(--dim);max-width:60ch;margin-bottom:22px}
+  .kick{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--hot);display:flex;align-items:center;gap:12px;margin:22px 0 14px}
+  .kick::before{content:"";width:22px;height:3px;background:var(--hot);box-shadow:0 0 9px rgba(var(--glow),.8)}
+  .kick .m{color:var(--dim)}
+  .panel{border:1px solid rgba(var(--glow),.2);background:rgba(7,18,10,.5);padding:22px;margin-bottom:18px}
+  .q{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--faint)}
+  .q:last-child{border-bottom:0}
+  .q .t{font-size:.92rem;color:var(--ink)}
+  .toggle{display:flex;gap:0;flex-shrink:0;border:1px solid var(--faint)}
+  .toggle button{font:inherit;font-family:var(--mono);font-weight:700;font-size:.8rem;cursor:pointer;background:rgba(0,0,0,.25);color:var(--dim);border:0;padding:8px 16px}
+  .toggle button+button{border-left:1px solid var(--faint)}
+  .toggle button[aria-pressed="true"]{color:#031006;background:var(--hot)}
+  .fields{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px}
+  @media(max-width:560px){.fields{grid-template-columns:1fr}}
+  .field{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0}
+  .field label{font-size:.88rem;color:var(--ink)}
+  .inp{display:inline-flex;align-items:center;border:1px solid var(--faint);background:rgba(0,0,0,.35);padding:0 10px;min-width:110px}
+  .inp:focus-within{border-color:var(--hot);box-shadow:0 0 0 1px rgba(var(--glow),.4)}
+  .inp .pre{color:var(--dim);font-size:.85rem}
+  .inp input{font:inherit;font-family:var(--mono);border:0;outline:0;background:transparent;text-align:right;width:100%;padding:8px 0;color:var(--ink);font-weight:650}
+  .inp .suf{color:var(--dim);font-size:.85rem}
+  .motion{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+  .motion button{font:inherit;font-family:var(--mono);font-weight:700;font-size:.8rem;cursor:pointer;border:1px solid var(--faint);background:rgba(0,0,0,.25);color:var(--dim);padding:8px 14px}
+  .motion button[aria-pressed="true"]{color:#031006;background:var(--hot);border-color:var(--hot)}
+  .btn{font:inherit;font-family:var(--mono);font-weight:700;font-size:.95rem;letter-spacing:.02em;cursor:pointer;width:100%;color:#031006;background:var(--hot);border:1px solid var(--hot);padding:15px;box-shadow:0 0 18px rgba(var(--glow),.3)}
+  .btn:hover{box-shadow:0 0 28px rgba(var(--glow),.5)}
+  .btn.ghost{color:var(--hot);background:transparent;border:1px dashed rgba(var(--glow),.45);box-shadow:none}
+  .btn.ghost:hover{background:rgba(var(--glow),.07)}
+  .result{display:none}
+  .result.show{display:block}
+  .verdict{border-left:3px solid var(--amber);background:rgba(var(--amberglow),.06);padding:18px 18px}
+  .verdict .lbl{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+  .verdict .big{font-family:var(--display);font-weight:700;font-size:clamp(1.3rem,4vw,1.9rem);color:var(--amber);text-shadow:0 0 22px rgba(var(--amberglow),.35);margin:8px 0 6px;line-height:1.1}
+  .verdict .d{font-size:.92rem;color:var(--ink)}
+  .gate{margin-top:16px}
+  .gate .fld{margin-bottom:12px}
+  .gate label{display:block;font-size:.9rem;color:var(--ink);margin-bottom:7px;font-weight:650}
+  .gate input{width:100%;font:inherit;font-family:var(--mono);border:1px solid var(--faint);background:rgba(0,0,0,.35);color:var(--ink);padding:12px 13px}
+  .gate input:focus{outline:0;border-color:var(--hot);box-shadow:0 0 0 1px rgba(var(--glow),.4)}
+  .gate input::placeholder{color:#2c6b40}
+  .fineprint{font-size:.78rem;color:var(--dim);margin-top:12px;text-align:center}
+  .err{color:var(--amber);font-size:.85rem;margin-top:10px;text-align:center;display:none}
+  .err.show{display:block}
+  .foot{margin-top:26px;font-size:.78rem;color:var(--dim);border-top:1px solid rgba(var(--glow),.16);padding-top:16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .foot a{color:var(--hot);text-decoration:none}
+  .foot a:hover{text-decoration:underline}
+</style>
+
+<div class="wrap">
+  <div class="termbar"><span class="dots"><i></i><i></i><i></i></span><a href="../">~/mm — diagnostic.sh</a><span class="tag">GTM</span></div>
+
+  <h1>Do you have the <span class="hot">Process-Market Fit gap?</span></h1>
+  <p class="sub">You have Product-Market Fit. The question is whether the system behind your revenue keeps up, or whether it all still lives in your head. Answer six questions. Get your read free, then see what the gap is worth on your numbers.</p>
+
+  <div id="quiz">
+    <p class="kick"><span class="m">01</span> six honest questions</p>
+    <section class="panel" id="questions"></section>
+
+    <p class="kick"><span class="m">02</span> three numbers you already know</p>
+    <section class="panel">
+      <div class="motion" id="motion" role="group" aria-label="Your main motion">
+        <button type="button" data-m="outbound" aria-pressed="true">Outbound</button>
+        <button type="button" data-m="inbound" aria-pressed="false">Inbound</button>
+        <button type="button" data-m="plg" aria-pressed="false">PLG</button>
+        <button type="button" data-m="referral" aria-pressed="false">Referral</button>
+      </div>
+      <div class="fields" style="margin-top:14px">
+        <div class="field"><label id="volLab" for="opps">New opportunities / month</label><span class="inp"><input id="opps" type="number" min="0" step="1" placeholder="40"></span></div>
+        <div class="field"><label for="acv">Average deal / ACV</label><span class="inp"><span class="pre">$</span><input id="acv" type="number" min="0" step="1000" placeholder="25000"></span></div>
+        <div class="field"><label id="r1Lab" for="qual">Qualify rate</label><span class="inp"><input id="qual" type="number" min="0" max="100" step="1" placeholder="55"><span class="suf">%</span></span></div>
+        <div class="field"><label id="r2Lab" for="close">Close rate</label><span class="inp"><input id="close" type="number" min="0" max="100" step="1" placeholder="18"><span class="suf">%</span></span></div>
+      </div>
+    </section>
+
+    <button class="btn" id="see" type="button">See my result</button>
+  </div>
+
+  <div class="result" id="result">
+    <p class="kick"><span class="m">&#10003;</span> your read</p>
+    <section class="panel">
+      <div class="verdict">
+        <p class="lbl">Process-Market Fit gap</p>
+        <div class="big" id="verdictBig">&mdash;</div>
+        <p class="d" id="verdictDesc"></p>
+      </div>
+      <div class="gate">
+        <p class="kick" style="margin-top:20px"><span class="m">03</span> now the number</p>
+        <p class="sub" style="margin-bottom:14px">See what that leak is worth per month, in ARR, on your own numbers. I built you a live calculator. Where should I send the link, so you have it later too?</p>
+        <div class="fld">
+          <label for="email">Your email</label>
+          <input id="email" type="email" placeholder="you@yoursaas.com" autocomplete="email">
+        </div>
+        <button class="btn" id="unlock" type="button">Show me what it's worth &rarr;</button>
+        <button class="btn ghost" id="skip" type="button" style="margin-top:10px">Skip, just show the calculator</button>
+        <p class="fineprint">Free. Email is used to send your result and the occasional useful thing. No spam.</p>
+        <p class="err" id="err">Enter a valid email, or hit skip.</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="foot"><span>Built by a Fractional GTM Engineer who'd rather show the work.</span><a href="https://marianomartene.com">marianomartene.com</a></div>
+</div>
+
+<script>
+(function(){
+  // ── SET THIS TO GO LIVE (same endpoint as the lead finder is fine) ────
+  var FORM_ENDPOINT = "REPLACE_WITH_YOUR_ENDPOINT";
+  // ─────────────────────────────────────────────────────────────────────
+  var QS=[
+    "Most deals still come from the founder's network or referrals.",
+    "Every deal rides on the founder being in the room.",
+    "There's no written “why we win.”",
+    "You don't fully trust your own CRM numbers.",
+    "More tools than last year, same confusion.",
+    "If you took two weeks off, growth would basically stop."
+  ];
+  var MOTION_LABELS={
+    outbound:{vol:'New opportunities / month', r1:'Qualify rate', r2:'Close rate'},
+    inbound:{vol:'Inbound leads or demos / month', r1:'Qualify rate', r2:'Close rate'},
+    plg:{vol:'Signups / month', r1:'Activation rate', r2:'Paid conversion'},
+    referral:{vol:'Warm intros / month', r1:'Meeting rate', r2:'Close rate'}
+  };
+  var answers=QS.map(function(){return false;});
+  var motion='outbound';
+
+  var qEl=document.getElementById('questions');
+  QS.forEach(function(q,i){
+    var row=document.createElement('div'); row.className='q';
+    row.innerHTML='<span class="t">'+q+'</span><span class="toggle" role="group"><button type="button" data-v="1" aria-pressed="false">Yes</button><button type="button" data-v="0" aria-pressed="true">No</button></span>';
+    var btns=row.querySelectorAll('button');
+    btns[0].addEventListener('click',function(){answers[i]=true;btns[0].setAttribute('aria-pressed','true');btns[1].setAttribute('aria-pressed','false');});
+    btns[1].addEventListener('click',function(){answers[i]=false;btns[0].setAttribute('aria-pressed','false');btns[1].setAttribute('aria-pressed','true');});
+    qEl.appendChild(row);
+  });
+
+  function el(id){return document.getElementById(id);}
+  var mBtns=document.querySelectorAll('#motion button');
+  for(var i=0;i<mBtns.length;i++){ mBtns[i].addEventListener('click',function(){
+    motion=this.getAttribute('data-m');
+    for(var j=0;j<mBtns.length;j++){mBtns[j].setAttribute('aria-pressed', mBtns[j]===this?'true':'false');}
+    var L=MOTION_LABELS[motion]; el('volLab').textContent=L.vol; el('r1Lab').textContent=L.r1; el('r2Lab').textContent=L.r2;
+  }.bind(mBtns[i])); }
+
+  function gapVerdict(n){
+    if(n<=2) return {big:'Barely a gap ('+n+'/6)', d:'Your growth engine mostly runs without you. You are in decent shape. Come back when it stops scaling.'};
+    if(n<=4) return {big:'You have the gap ('+n+'/6)', d:'The product works, the system behind revenue does not. One lever is leaking, and it is the thing capping your growth right now.'};
+    return {big:'It all lives in your head ('+n+'/6)', d:'You are the bottleneck. The fix is not another tool or another hire into chaos, it is getting the way you win out of your head and into a system a hire can run.'};
+  }
+
+  el('see').addEventListener('click',function(){
+    var n=answers.reduce(function(a,b){return a+(b?1:0);},0);
+    var v=gapVerdict(n);
+    el('verdictBig').textContent=v.big; el('verdictDesc').textContent=v.d;
+    document.getElementById('quiz').style.display='none';
+    var r=document.getElementById('result'); r.classList.add('show');
+    r.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+
+  function calcURL(){
+    var p=[]; p.push('motion='+encodeURIComponent(motion)); p.push('from=diagnostic');
+    ['opps','acv','qual','close'].forEach(function(id){ var v=el(id).value.trim(); if(v!=='') p.push(id+'='+encodeURIComponent(v)); });
+    return '../?'+p.join('&');
+  }
+  function go(){ window.location.href=calcURL(); }
+
+  el('unlock').addEventListener('click',function(){
+    var email=el('email').value.trim();
+    if(!email||email.indexOf('@')<1){ el('err').classList.add('show'); return; }
+    el('err').classList.remove('show'); this.disabled=true; this.textContent='...';
+    var n=answers.reduce(function(a,b){return a+(b?1:0);},0);
+    var payload={email:email, source:'diagnostic', gap_score:n, motion:motion,
+      opps:el('opps').value, acv:el('acv').value, qual:el('qual').value, close:el('close').value, ts:new Date().toISOString()};
+    fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)})
+      .then(function(){ go(); }).catch(function(){ go(); }); // deliver value regardless; capture is best-effort
+  });
+  el('skip').addEventListener('click',go);
+})();
+</script>
+</html>
