@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>What's Your GTM Leak Worth? — Fractional GTM Engineer</title>
+<meta name="description" content="A free value calculator from Mariano Martene, a Fractional GTM Engineer. Pick your motion, fill in your funnel, and see where you're leaking revenue and what fixing it is worth in ARR.">
+<meta property="og:title" content="What's Your GTM Leak Worth? — Fractional GTM Engineer">
+<meta property="og:description" content="Fill in your funnel. See where you're leaking and what fixing it is worth in ARR. Free, no signup.">
+<meta property="og:type" content="website">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://marianomartene.github.io/fractional-gtm-engineer/">
+<!-- reading the source again? the whole thing runs client-side, nothing phones home.
+     that's the point: a fractional GTM engineer builds tools you can actually inspect. -->
+<style>
+  :root{
+    --bg:#040804; --bg2:#07120a; --faint:#16341f; --dim:#3f8c57; --ink:#c7ffd4;
+    --hot:#39ff14; --glow:57,255,20; --amber:#ffb000; --amberglow:255,176,0;
+    --display:'Space Grotesk',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+    --fs-hero:clamp(2.2rem,6vw,3.4rem);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:radial-gradient(120% 70% at 50% 0%,var(--bg2),var(--bg) 60%,#000);color:var(--ink);
+    font-family:var(--mono);line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;font-variant-numeric:tabular-nums}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;mix-blend-mode:overlay;opacity:.32;
+    background:repeating-linear-gradient(to bottom,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.5) 3px,rgba(0,0,0,0) 4px)}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:59;background:radial-gradient(130% 100% at 50% 40%,transparent 55%,rgba(0,0,0,.55))}
+  .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px 72px;position:relative;z-index:1}
+
+  .termbar{display:flex;align-items:center;gap:14px;padding:18px 0 14px;border-bottom:1px solid rgba(var(--glow),.2);
+    position:sticky;top:0;background:rgba(4,8,4,.86);backdrop-filter:blur(8px);z-index:40;font-size:13px;color:var(--dim)}
+  .termbar .dots{display:flex;gap:8px}
+  .termbar .dots i{width:12px;height:12px;border:2px solid var(--dim);display:block}
+  .termbar .dots i:first-child{background:var(--hot);border-color:var(--hot);box-shadow:0 0 9px rgba(var(--glow),.8)}
+  .termbar .tag{margin-left:auto;color:var(--hot);font-weight:700;letter-spacing:.16em}
+
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(1.9rem,4.4vw,2.7rem);letter-spacing:-.02em;line-height:1;margin:40px 0 10px;text-wrap:balance}
+  h1 .hot{color:var(--hot);text-shadow:0 0 26px rgba(var(--glow),.5)}
+  .sub{font-size:.96rem;color:var(--dim);max-width:64ch;margin-bottom:22px}
+  .sub a{color:var(--ink);text-decoration:underline;text-decoration-color:rgba(var(--glow),.4)}
+
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 20px}
+  .tab{font:inherit;font-family:var(--mono);font-weight:700;font-size:.82rem;letter-spacing:.04em;cursor:pointer;
+    border:1px solid var(--faint);background:rgba(0,0,0,.25);color:var(--dim);padding:9px 15px}
+  .tab:hover{color:var(--ink);border-color:rgba(var(--glow),.4)}
+  .tab[aria-selected="true"]{color:#031006;background:var(--hot);border-color:var(--hot);box-shadow:0 0 14px rgba(var(--glow),.35)}
+  .tab:focus-visible{outline:2px solid var(--hot);outline-offset:2px}
+
+  .kick{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--hot);display:flex;align-items:center;gap:12px;margin:0 0 14px}
+  .kick::before{content:"";width:24px;height:3px;background:var(--hot);box-shadow:0 0 9px rgba(var(--glow),.8)}
+  .kick .m{color:var(--dim);letter-spacing:.26em}
+  .panel{border:1px solid rgba(var(--glow),.2);background:rgba(7,18,10,.5);padding:22px;margin-bottom:20px}
+
+  .fields{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px}
+  @media(max-width:560px){.fields{grid-template-columns:1fr}}
+  .field{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0}
+  .field label{font-size:.9rem;color:var(--ink)}
+  .field .hint{color:var(--dim);font-size:.75rem}
+  .inp{display:inline-flex;align-items:center;border:1px solid var(--faint);background:rgba(0,0,0,.35);padding:0 10px;min-width:120px}
+  .inp:focus-within{border-color:var(--hot);box-shadow:0 0 0 1px rgba(var(--glow),.4),0 0 12px rgba(var(--glow),.18)}
+  .inp .pre{color:var(--dim);font-size:.88rem;padding-right:2px}
+  .inp input{font:inherit;font-family:var(--mono);font-variant-numeric:tabular-nums;border:0;outline:0;background:transparent;text-align:right;width:100%;padding:8px 0;color:var(--ink);font-weight:650}
+  .inp .suf{color:var(--dim);font-size:.88rem;padding-left:2px}
+  input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+  input[type=number]{-moz-appearance:textfield}
+
+  .funnel{margin-top:20px;display:grid;gap:0}
+  .stage{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:11px 14px;border:1px solid var(--faint);background:rgba(0,0,0,.25)}
+  .stage .lab{font-size:.9rem;color:var(--dim)}
+  .stage .v{font-family:var(--display);font-weight:700;font-size:1.35rem;color:var(--ink)}
+  .trans{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:5px 14px;font-size:.8rem;color:var(--dim)}
+  .trans .pct{font-weight:700;color:var(--ink)}
+  .trans.leak{color:var(--amber)}
+  .trans.leak .pct{color:var(--amber)}
+  .trans .tag2{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);
+    border:1px solid rgba(var(--amberglow),.4);background:rgba(var(--amberglow),.08);padding:2px 8px}
+  .stage.leak{border-color:rgba(var(--amberglow),.5);box-shadow:inset 0 0 0 1px rgba(var(--amberglow),.25)}
+
+  .verdict{margin-top:18px;border-left:3px solid var(--amber);background:rgba(var(--amberglow),.06);padding:14px 16px}
+  .verdict .lbl{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+  .verdict .big{font-family:var(--display);font-weight:700;font-size:clamp(1.3rem,4vw,1.8rem);color:var(--amber);text-shadow:0 0 22px rgba(var(--amberglow),.35);margin-top:6px;line-height:1.1}
+  .verdict .d{font-size:.88rem;color:var(--ink);margin-top:8px}
+
+  .prize .lbl{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+  .prize .big{font-family:var(--display);font-weight:700;font-size:var(--fs-hero);color:var(--hot);text-shadow:0 0 28px rgba(var(--glow),.45);line-height:1;margin:8px 0 4px}
+  .prize .sec{font-size:.9rem;color:var(--dim)}
+  .prize .sec b{color:var(--ink);font-weight:650}
+
+  .cta{border:1px solid rgba(var(--glow),.35);background:rgba(var(--glow),.05);padding:24px;margin-bottom:20px;text-align:center}
+  .cta .lbl{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+  .cta .h{font-family:var(--display);font-weight:700;font-size:clamp(1.2rem,3.6vw,1.6rem);color:var(--ink);margin:8px 0 4px;line-height:1.15}
+  .cta .h b{color:var(--hot)}
+  .cta .p{font-size:.9rem;color:var(--dim);max-width:56ch;margin:0 auto 18px}
+  .cta .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{font:inherit;font-family:var(--mono);font-weight:700;font-size:.9rem;letter-spacing:.02em;text-decoration:none;padding:13px 22px;display:inline-block}
+  .btn.primary{color:#031006;background:var(--hot);border:1px solid var(--hot);box-shadow:0 0 18px rgba(var(--glow),.35)}
+  .btn.primary:hover{box-shadow:0 0 26px rgba(var(--glow),.55)}
+  .btn.ghost{color:var(--hot);background:transparent;border:1px solid rgba(var(--glow),.4)}
+  .btn.ghost:hover{background:rgba(var(--glow),.08)}
+
+  .foot{margin-top:26px;font-size:.78rem;color:var(--dim);border-top:1px solid rgba(var(--glow),.16);padding-top:16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .foot a{color:var(--hot);text-decoration:none}
+  .foot a:hover{text-decoration:underline}
+</style>
+
+<div class="wrap">
+  <div class="termbar"><span class="dots"><i></i><i></i><i></i></span><span>~/mm — value-math.sh</span><span class="tag">GTM</span></div>
+
+  <h1>What's your GTM leak worth? <span class="hot">&rarr;</span></h1>
+  <p class="sub">Pick your motion, fill in your funnel. It shows where you're actually leaking revenue and what fixing that leak is worth in ARR. Free, runs in your browser, nothing saved. Built by a <a href="https://marianomartene.com">Fractional GTM Engineer</a>.</p>
+
+  <div class="tabs" role="tablist" aria-label="GTM motion">
+    <button class="tab" role="tab" type="button" data-scn="outbound" aria-selected="true">Outbound</button>
+    <button class="tab" role="tab" type="button" data-scn="inbound" aria-selected="false">Inbound</button>
+    <button class="tab" role="tab" type="button" data-scn="plg" aria-selected="false">PLG</button>
+    <button class="tab" role="tab" type="button" data-scn="referral" aria-selected="false">Referral</button>
+  </div>
+
+  <section class="panel">
+    <p class="kick"><span class="m">01</span> your funnel</p>
+    <div class="fields">
+      <div class="field"><label for="opps" id="volLab">New opportunities / month</label><span class="inp"><input id="opps" type="number" min="0" step="1" value="40"></span></div>
+      <div class="field"><label for="acv" id="acvLab">Average deal / ACV</label><span class="inp"><span class="pre">$</span><input id="acv" type="number" min="0" step="1000" value="25000"></span></div>
+      <div class="field"><label for="qual"><span id="r1Lab">Qualify rate</span> <span class="hint" id="r1Hint">(opps &rarr; real fits)</span></label><span class="inp"><input id="qual" type="number" min="0" max="100" step="1" value="55"><span class="suf">%</span></span></div>
+      <div class="field"><label for="close"><span id="r2Lab">Close rate</span> <span class="hint" id="r2Hint">(qualified &rarr; won)</span></label><span class="inp"><input id="close" type="number" min="0" max="100" step="1" value="18"><span class="suf">%</span></span></div>
+    </div>
+
+    <div class="funnel" id="funnel"></div>
+
+    <div class="verdict">
+      <p class="lbl">your biggest leak</p>
+      <div class="big" id="leverName">&mdash;</div>
+      <p class="d" id="leverDesc"></p>
+    </div>
+  </section>
+
+  <section class="panel prize">
+    <p class="kick"><span class="m">02</span> what fixing it is worth</p>
+    <p class="lbl">New ARR you're leaving on the table / month</p>
+    <div class="big num" id="prizeMonth">&mdash;</div>
+    <p class="sec"><span id="prizeExplain"></span> &middot; that's <b class="num" id="prizeYear">&mdash;</b> a year.</p>
+  </section>
+
+  <section class="cta">
+    <p class="lbl">Now the harder question</p>
+    <div class="h">Who's going to <b>build the fix?</b></div>
+    <p class="p">Knowing where you leak is step one. Getting the fix shipped into your live stack, in weeks, is the job. That's what a Fractional GTM Engineer does: find the one lever, build the first working fix, hand you a system a hire can run.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://call.marianomartene.com">Book a call</a>
+      <a class="btn ghost" href="https://marianomartene.com">See how it works</a>
+    </div>
+  </section>
+
+  <div class="foot"><span>Conservative numbers only. This is your own money on the table.</span><a href="https://marianomartene.com">marianomartene.com</a></div>
+</div>
+
+<script>
+(function(){
+  var SCN={
+    outbound:{
+      vol:'New opportunities / month', acv:'Average deal / ACV',
+      r1:'Qualify rate', r1h:'(opps → real fits)', r2:'Close rate', r2h:'(qualified → won)',
+      s1:'Opportunities / mo', s2:'Qualified / mo', s3:'New customers / mo',
+      d:{vol:40, acv:25000, r1:55, r2:18}, b1:0.55, b2:0.28, step:10, unit:'opportunities',
+      volName:'Pipeline — not enough at the top',
+      volDesc:'Your qualify and close rates are healthy. The constraint is volume: too few opportunities entering the funnel.',
+      r1Name:'Targeting / Messaging',
+      r1Desc:function(q,b){return 'Too many of the wrong accounts reach you, or the message isn’t landing — only '+q+'% qualify, vs a healthy ~'+b+'%.';},
+      r2Name:'Conversion — losing the ones who qualify',
+      r2Desc:function(c,b){return 'You get real fits, then lose them — only '+c+'% close, vs a healthy ~'+b+'%.';}
+    },
+    inbound:{
+      vol:'Inbound leads or demos / month', acv:'Average deal / ACV',
+      r1:'Qualify rate', r1h:'(leads → real fits)', r2:'Close rate', r2h:'(qualified → won)',
+      s1:'Inbound leads / mo', s2:'Qualified / mo', s3:'New customers / mo',
+      d:{vol:30, acv:20000, r1:45, r2:22}, b1:0.50, b2:0.25, step:10, unit:'leads',
+      volName:'Demand — not enough inbound',
+      volDesc:'Qualify and close are healthy — the constraint is how much inbound you generate. Too few leads reaching the funnel.',
+      r1Name:'Fit / targeting — wrong leads',
+      r1Desc:function(q,b){return 'A lot of the inbound isn’t a real fit — only '+q+'% qualify, vs a healthy ~'+b+'%.';},
+      r2Name:'Conversion — demos that stall',
+      r2Desc:function(c,b){return 'Qualified demos don’t close — only '+c+'% win, vs a healthy ~'+b+'%.';}
+    },
+    plg:{
+      vol:'Signups / month', acv:'Avg revenue / customer (annual)',
+      r1:'Activation rate', r1h:'(signup → activated)', r2:'Paid conversion', r2h:'(activated → paid)',
+      s1:'Signups / mo', s2:'Activated / mo', s3:'Paid / mo',
+      d:{vol:1200, acv:1200, r1:32, r2:5}, b1:0.40, b2:0.06, step:200, unit:'signups',
+      volName:'Top of funnel — not enough signups',
+      volDesc:'Activation and paid conversion are healthy — the constraint is raw signup volume.',
+      r1Name:'Activation — signups never reach value',
+      r1Desc:function(q,b){return 'Signups don’t reach the aha — only '+q+'% activate, vs a healthy ~'+b+'%.';},
+      r2Name:'Monetization — activated users don’t convert',
+      r2Desc:function(c,b){return 'Activated users stay free — only '+c+'% go paid, vs a healthy ~'+b+'%.';}
+    },
+    referral:{
+      vol:'Warm intros / month', acv:'Average deal / ACV',
+      r1:'Meeting rate', r1h:'(intro → meeting)', r2:'Close rate', r2h:'(meeting → won)',
+      s1:'Warm intros / mo', s2:'Meetings / mo', s3:'New customers / mo',
+      d:{vol:8, acv:30000, r1:70, r2:33}, b1:0.60, b2:0.30, step:2, unit:'intros',
+      volName:'Volume — the well runs dry',
+      volDesc:'Your close rate is great, but referral volume can’t scale on its own — you need repeatable net-new sourcing.',
+      r1Name:'Follow-through — intros don’t become meetings',
+      r1Desc:function(q,b){return 'Warm intros stall before a meeting — only '+q+'% convert, vs a healthy ~'+b+'%.';},
+      r2Name:'Conversion — meetings that stall',
+      r2Desc:function(c,b){return 'Meetings don’t close — only '+c+'% win, vs a healthy ~'+b+'%.';}
+    }
+  };
+
+  var usd0=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
+  var numf=new Intl.NumberFormat('en-US',{maximumFractionDigits:1});
+  function clamp(x,lo,hi){return Math.min(Math.max(x,lo),hi);}
+  function el(id){return document.getElementById(id);}
+  var active='outbound';
+
+  function compute(){
+    var c=SCN[active];
+    var opps=Math.max(parseFloat(el('opps').value)||0,0);
+    var qual=clamp((parseFloat(el('qual').value)||0)/100,0,1);
+    var close=clamp((parseFloat(el('close').value)||0)/100,0,1);
+    var acv=Math.max(parseFloat(el('acv').value)||0,0);
+    var qualified=opps*qual, customers=qualified*close, arr=customers*acv;
+    var QB=c.b1, CB=c.b2;
+    var hq=QB>0?qual/QB:1, hc=CB>0?close/CB:1;
+    var lever, leverName, leverDesc, prize, prizeExplain;
+    if(hq>=0.9 && hc>=0.9){
+      lever='vol'; leverName=c.volName; leverDesc=c.volDesc;
+      var per=c.step*qual*close*acv; prize=per;
+      prizeExplain='Every +'+c.step+' '+c.unit+'/month is worth '+usd0.format(per)+'/mo at your economics';
+    } else if(hq<=hc){
+      lever='r1'; leverName=c.r1Name; leverDesc=c.r1Desc(Math.round(qual*100),Math.round(QB*100));
+      var a1=opps*Math.max(qual,QB)*close*acv; prize=Math.max(a1-arr,0);
+      prizeExplain='Getting '+c.r1.toLowerCase()+' to ~'+Math.round(QB*100)+'% adds this';
+    } else {
+      lever='r2'; leverName=c.r2Name; leverDesc=c.r2Desc(Math.round(close*100),Math.round(CB*100));
+      var a2=qualified*Math.max(close,CB)*acv; prize=Math.max(a2-arr,0);
+      prizeExplain='Getting '+c.r2.toLowerCase()+' to ~'+Math.round(CB*100)+'% adds this';
+    }
+
+    var f=el('funnel'); f.innerHTML='';
+    function stage(lab,val,leak){ f.insertAdjacentHTML('beforeend','<div class="stage'+(leak?' leak':'')+'"><span class="lab">'+lab+'</span><span class="v num">'+numf.format(val)+'</span></div>'); }
+    function trans(pct,leakName){ var lk=!!leakName; f.insertAdjacentHTML('beforeend','<div class="trans'+(lk?' leak':'')+'"><span>'+(lk?'↓ '+leakName:'↓')+'</span><span class="pct">'+Math.round(pct*100)+'%</span>'+(lk?'<span class="tag2">biggest leak</span>':'')+'</div>'); }
+    stage(c.s1, opps, lever==='vol');
+    trans(qual, lever==='r1'?c.r1.toLowerCase():'');
+    stage(c.s2, qualified, false);
+    trans(close, lever==='r2'?c.r2.toLowerCase():'');
+    stage(c.s3, customers, false);
+
+    el('leverName').textContent=leverName;
+    el('leverDesc').textContent=leverDesc;
+    el('prizeMonth').textContent=(arr>0||prize>0)?usd0.format(prize):'—';
+    el('prizeYear').textContent=usd0.format(prize*12);
+    el('prizeExplain').textContent=prizeExplain;
+  }
+
+  function setScn(key){
+    active=key; var c=SCN[key];
+    var tabs=document.querySelectorAll('.tab');
+    for(var i=0;i<tabs.length;i++){ tabs[i].setAttribute('aria-selected', tabs[i].getAttribute('data-scn')===key?'true':'false'); }
+    el('opps').value=c.d.vol; el('acv').value=c.d.acv; el('qual').value=c.d.r1; el('close').value=c.d.r2;
+    el('volLab').textContent=c.vol; el('acvLab').textContent=c.acv;
+    el('r1Lab').textContent=c.r1; el('r1Hint').textContent=c.r1h;
+    el('r2Lab').textContent=c.r2; el('r2Hint').textContent=c.r2h;
+    compute();
+  }
+
+  var tabEls=document.querySelectorAll('.tab');
+  for(var i=0;i<tabEls.length;i++){ tabEls[i].addEventListener('click',function(){ setScn(this.getAttribute('data-scn')); }); }
+  ['opps','qual','close','acv'].forEach(function(id){el(id).addEventListener('input',compute);});
+  compute();
+})();
+</script>
+
+</html>
