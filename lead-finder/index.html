@@ -12,6 +12,7 @@
 <link rel="icon" href="https://marianomartene.com/content/images/size/w256h256/2026/06/green-pfp-1.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <!-- one endpoint to set live. see FORM_ENDPOINT below. everything else is done. -->
 <style>
   :root{
@@ -100,6 +101,7 @@
         <label for="notes">Anything else? <span class="hint">geo, size, a great current customer to clone (optional)</span></label>
         <textarea id="notes" name="notes" rows="2" placeholder="optional"></textarea>
       </div>
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAD1RlFIImI_GF-M0" data-action="turnstile-spin-v1" style="margin-bottom:16px"></div>
       <button class="btn" id="submit" type="submit">Send me my list</button>
       <p class="fineprint">Free. Your email is used to send the list and the occasional useful thing. No spam.</p>
       <p class="err" id="err">Something went wrong. Mail me at mariano@marianomartene.com and I'll build it by hand.</p>
@@ -131,12 +133,14 @@
         website=document.getElementById('website').value.trim(),
         icp=document.getElementById('icp').value.trim();
     if(!email||!website||!icp||email.indexOf('@')<1){ err.textContent='Fill in email, website, and your ideal customer.'; err.classList.add('show'); return; }
+    var tsToken=(window.turnstile&&turnstile.getResponse)?turnstile.getResponse():'';
+    if(!tsToken){ err.textContent='Please complete the verification below.'; err.classList.add('show'); return; }
     btn.disabled=true; btn.textContent='Sending...';
-    var payload={email:email, website:website, icp:icp,
+    var payload={email:email, website:website, icp:icp, turnstileToken:tsToken,
       notes:document.getElementById('notes').value.trim(), source:'lead-finder', ts:new Date().toISOString()};
     fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)})
       .then(function(r){ if(!r.ok) throw new Error('bad status'); form.style.display='none'; ok.classList.add('show'); })
-      .catch(function(){ btn.disabled=false; btn.textContent='Send me my list'; err.classList.add('show'); });
+      .catch(function(){ btn.disabled=false; btn.textContent='Send me my list'; if(window.turnstile)turnstile.reset(); err.classList.add('show'); });
   });
 })();
 </script>

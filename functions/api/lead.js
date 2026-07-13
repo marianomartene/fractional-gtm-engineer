@@ -15,6 +15,17 @@ export const onRequestPost = async ({ request, env }) => {
   let d;
   try { d = await request.json(); } catch (e) { return json({ error: "bad json" }, 400); }
 
+  // Turnstile bot check (enforced only when the secret is configured)
+  if (env.TURNSTILE_SECRET) {
+    const token = d.turnstileToken || d["cf-turnstile-response"] || "";
+    const form = new URLSearchParams({ secret: env.TURNSTILE_SECRET, response: token });
+    const ip = request.headers.get("CF-Connecting-IP");
+    if (ip) form.append("remoteip", ip);
+    const vr = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", body: form });
+    const outcome = await vr.json().catch(() => ({ success: false }));
+    if (!outcome.success) return json({ error: "turnstile" }, 403);
+  }
+
   const email = String(d.email || "").trim();
   if (!email || email.indexOf("@") < 1) return json({ error: "email" }, 400);
 

@@ -12,6 +12,7 @@
 <link rel="icon" href="https://marianomartene.com/content/images/size/w256h256/2026/06/green-pfp-1.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <style>
   :root{
     --bg:#040804; --bg2:#07120a; --faint:#16341f; --dim:#3f8c57; --ink:#c7ffd4;
@@ -129,6 +130,7 @@
           <label for="email">Your email</label>
           <input id="email" type="email" placeholder="you@yoursaas.com" autocomplete="email">
         </div>
+        <div id="ts-diag" style="margin-bottom:12px"></div>
         <button class="btn" id="unlock" type="button">Show me what it's worth &rarr;</button>
         <button class="btn ghost" id="skip" type="button" style="margin-top:10px">Skip, just show the calculator</button>
         <p class="fineprint">Free. Email is used to send your result and the occasional useful thing. No spam.</p>
@@ -193,6 +195,7 @@
     document.getElementById('quiz').style.display='none';
     var r=document.getElementById('result'); r.classList.add('show');
     r.scrollIntoView({behavior:'smooth',block:'start'});
+    if(window.turnstile&&window._tsDiagId==null){ try{ window._tsDiagId=turnstile.render('#ts-diag',{sitekey:'0x4AAAAAAD1RlFIImI_GF-M0',action:'turnstile-spin-v1'}); }catch(e){} }
   });
 
   function calcURL(){
@@ -204,10 +207,12 @@
 
   el('unlock').addEventListener('click',function(){
     var email=el('email').value.trim();
-    if(!email||email.indexOf('@')<1){ el('err').classList.add('show'); return; }
+    if(!email||email.indexOf('@')<1){ el('err').textContent='Enter a valid email, or hit skip.'; el('err').classList.add('show'); return; }
+    var tsToken=(window.turnstile&&window._tsDiagId!=null)?turnstile.getResponse(window._tsDiagId):'';
+    if(!tsToken){ el('err').textContent='Please complete the verification.'; el('err').classList.add('show'); return; }
     el('err').classList.remove('show'); this.disabled=true; this.textContent='...';
     var n=answers.reduce(function(a,b){return a+(b?1:0);},0);
-    var payload={email:email, source:'diagnostic', gap_score:n, motion:motion,
+    var payload={email:email, source:'diagnostic', gap_score:n, motion:motion, turnstileToken:tsToken,
       opps:el('opps').value, acv:el('acv').value, qual:el('qual').value, close:el('close').value, ts:new Date().toISOString()};
     fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)})
       .then(function(){ go(); }).catch(function(){ go(); }); // deliver value regardless; capture is best-effort
