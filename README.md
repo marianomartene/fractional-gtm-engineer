@@ -117,7 +117,7 @@ your stack, that you keep either way.
    -> https://marianomartene.github.io/fractional-gtm-engineer/
 
    or just talk:
-   -> https://call.marianomartene.com
+   -> https://call.marianomartene.com/marianomartene/15min
 ```
 
 ---
