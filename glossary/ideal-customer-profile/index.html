@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ideal Customer Profile (ICP): An Operator's Definition</title>
+<meta name="description" content="Not a persona doc. A testable filter for the accounts actually worth your time.">
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="Ideal Customer Profile (ICP) | GTM glossary">
+<meta property="og:description" content="Not a persona doc. A testable filter for the accounts actually worth your time.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://tools.marianomartene.com/glossary/ideal-customer-profile/">
+<link rel="canonical" href="https://tools.marianomartene.com/glossary/ideal-customer-profile/">
+<link rel="icon" href="https://marianomartene.com/content/images/size/w256h256/2026/06/green-pfp-1.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "DefinedTerm",
+    "name": "Ideal Customer Profile (ICP)",
+    "description": "An ideal customer profile (ICP) is the set of firmographic and behavioral criteria that define the accounts worth your time. The operator's version is not a persona document. It is a testable filter, specific enough to disqualify most of the market on purpose.",
+    "url": "https://tools.marianomartene.com/glossary/ideal-customer-profile/",
+    "inDefinedTermSet": {
+      "@type": "DefinedTermSet",
+      "name": "GTM Engineering Glossary",
+      "url": "https://tools.marianomartene.com/glossary/"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Tools",
+        "item": "https://tools.marianomartene.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Glossary",
+        "item": "https://tools.marianomartene.com/glossary/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Ideal Customer Profile (ICP)",
+        "item": "https://tools.marianomartene.com/glossary/ideal-customer-profile/"
+      }
+    ]
+  }
+]
+</script>
+<style>
+  :root{
+    --bg:#040804; --bg2:#07120a; --faint:#16341f; --dim:#3f8c57; --ink:#c7ffd4;
+    --hot:#39ff14; --glow:57,255,20; --amber:#ffb000; --amberglow:255,176,0;
+    --display:'Space Grotesk',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+    --arcade:'Press Start 2P',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:radial-gradient(120% 70% at 50% 0%,var(--bg2),var(--bg) 60%,#000);color:var(--ink);
+    font-family:var(--mono);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;font-variant-numeric:tabular-nums}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;mix-blend-mode:overlay;opacity:.32;
+    background:repeating-linear-gradient(to bottom,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.5) 3px,rgba(0,0,0,0) 4px)}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:59;background:radial-gradient(130% 100% at 50% 40%,transparent 55%,rgba(0,0,0,.55))}
+  .wrap{max-width:820px;margin:0 auto;padding:0 24px 72px;position:relative;z-index:1}
+
+  .termbar{display:flex;align-items:center;gap:16px;padding:18px 0 14px;border-bottom:1px solid rgba(var(--glow),.2);
+    position:sticky;top:0;background:rgba(4,8,4,.86);backdrop-filter:blur(8px);z-index:40;font-size:13px;color:var(--dim);flex-wrap:wrap}
+  .termbar .dots{display:flex;gap:8px}
+  .termbar .dots i{width:12px;height:12px;border:2px solid var(--dim);display:block}
+  .termbar .dots i:first-child{background:var(--hot);border-color:var(--hot);box-shadow:0 0 9px rgba(var(--glow),.8)}
+  .termbar .nav{display:flex;gap:16px;flex-wrap:wrap}
+  .termbar .nav a{color:var(--dim);text-decoration:none}
+  .termbar .nav a:hover,.termbar .nav a[aria-current]{color:var(--hot)}
+  .termbar .tag{margin-left:auto;color:var(--hot);font-family:var(--arcade);font-size:10px;letter-spacing:.04em}
+
+  .crumb{font-size:.78rem;color:var(--dim);margin:26px 0 0;letter-spacing:.02em}
+  .crumb a{color:var(--dim);text-decoration:none}
+  .crumb a:hover{color:var(--hot)}
+  .crumb .sep{color:var(--faint);padding:0 6px}
+
+  .kick{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--hot);display:flex;align-items:center;gap:12px;margin:30px 0 14px}
+  .kick::before{content:"";width:22px;height:3px;background:var(--hot);box-shadow:0 0 9px rgba(var(--glow),.8)}
+  .kick .m{color:var(--dim);letter-spacing:.24em}
+
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(1.9rem,4.6vw,2.7rem);letter-spacing:-.02em;line-height:1.04;margin:8px 0 14px;text-wrap:balance}
+  h1 .hot{color:var(--hot);text-shadow:0 0 26px rgba(var(--glow),.5)}
+  h2{font-family:var(--display);font-weight:700;font-size:clamp(1.25rem,3vw,1.55rem);letter-spacing:-.01em;line-height:1.15;margin:34px 0 12px;color:var(--ink)}
+  h3{font-family:var(--display);font-weight:700;font-size:1.05rem;margin:22px 0 8px;color:var(--ink)}
+  p{margin:0 0 14px;color:var(--ink);font-size:.98rem}
+  p.lead{font-size:1.08rem;color:var(--ink)}
+  .muted{color:var(--dim)}
+  a.lnk{color:var(--hot);text-decoration:none;border-bottom:1px solid rgba(var(--glow),.35)}
+  a.lnk:hover{border-bottom-color:var(--hot)}
+  strong,b{color:#e6ffe9;font-weight:700}
+  ul,ol{margin:0 0 16px;padding-left:22px}
+  li{margin:6px 0;color:var(--ink);font-size:.98rem}
+  ul li::marker{color:var(--hot)}
+
+  .def{border-left:3px solid var(--hot);background:rgba(var(--glow),.06);padding:16px 18px;margin:6px 0 24px}
+  .def .lbl{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+  .def p{font-size:1.05rem;margin:0}
+  .def p b{color:var(--hot);font-weight:700}
+
+  .panel{border:1px solid rgba(var(--glow),.2);background:rgba(7,18,10,.5);padding:22px;margin:0 0 20px}
+
+  .tableWrap{overflow-x:auto;margin:0 0 22px;border:1px solid rgba(var(--glow),.2)}
+  table{border-collapse:collapse;width:100%;min-width:560px;font-size:.9rem}
+  caption{caption-side:top;text-align:left;font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);padding:12px 14px 0}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--faint);vertical-align:top;color:var(--ink)}
+  thead th{background:rgba(0,0,0,.35);color:var(--dim);font-weight:700;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase}
+  tbody th{color:var(--hot);font-weight:700;white-space:nowrap}
+  td .hot{color:var(--hot)}
+  tbody tr:last-child td,tbody tr:last-child th{border-bottom:0}
+  .col-me{background:rgba(var(--glow),.05)}
+
+  .when{display:grid;gap:14px;grid-template-columns:1fr 1fr;margin:0 0 8px}
+  @media(max-width:620px){.when{grid-template-columns:1fr}}
+  .when .card{border:1px solid var(--faint);background:rgba(0,0,0,.25);padding:16px 18px}
+  .when .card h3{margin:0 0 8px;font-size:1rem}
+  .when .card.me{border-color:rgba(var(--glow),.4);background:rgba(var(--glow),.05)}
+  .when .card .tag2{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+
+  .related{border:1px solid rgba(var(--glow),.2);background:rgba(7,18,10,.4);padding:18px 20px;margin:26px 0 0}
+  .related .lbl{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+  .related ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+  .related li{margin:0}
+  .related a{display:inline-block;border:1px solid var(--faint);background:rgba(0,0,0,.25);color:var(--ink);
+    text-decoration:none;padding:7px 12px;font-size:.85rem}
+  .related a:hover{border-color:rgba(var(--glow),.5);color:var(--hot)}
+
+  .cta{border:1px solid rgba(var(--glow),.35);background:rgba(var(--glow),.05);padding:24px;margin:28px 0 0;text-align:center}
+  .cta .lbl{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+  .cta .h{font-family:var(--display);font-weight:700;font-size:clamp(1.15rem,3.2vw,1.5rem);color:var(--ink);margin:8px 0 4px;line-height:1.15}
+  .cta .h b{color:var(--hot)}
+  .cta .p{font-size:.92rem;color:var(--dim);max-width:56ch;margin:0 auto 18px}
+  .cta .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{font:inherit;font-family:var(--mono);font-weight:700;font-size:.9rem;letter-spacing:.02em;text-decoration:none;padding:13px 22px;display:inline-block}
+  .btn.primary{color:#031006;background:var(--hot);border:1px solid var(--hot);box-shadow:0 0 18px rgba(var(--glow),.35)}
+  .btn.primary:hover{box-shadow:0 0 26px rgba(var(--glow),.55)}
+  .btn.ghost{color:var(--hot);background:transparent;border:1px solid rgba(var(--glow),.4)}
+  .btn.ghost:hover{background:rgba(var(--glow),.08)}
+
+  .hubgrid{display:grid;gap:14px;grid-template-columns:1fr 1fr;margin:0 0 8px}
+  @media(max-width:620px){.hubgrid{grid-template-columns:1fr}}
+  .hubcard{border:1px solid var(--faint);background:rgba(0,0,0,.25);padding:16px 18px;text-decoration:none;display:block}
+  .hubcard:hover{border-color:rgba(var(--glow),.5)}
+  .hubcard .t{display:block;font-family:var(--display);font-weight:700;font-size:1.02rem;color:var(--ink);line-height:1.2}
+  .hubcard:hover .t{color:var(--hot)}
+  .hubcard .d{display:block;font-size:.85rem;color:var(--dim);margin-top:6px}
+  .catlabel{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--hot);margin:28px 0 12px;display:flex;align-items:center;gap:10px}
+  .catlabel::before{content:"";width:18px;height:3px;background:var(--hot)}
+
+  .foot{margin-top:34px;font-size:.78rem;color:var(--dim);border-top:1px solid rgba(var(--glow),.16);padding-top:16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .foot a{color:var(--hot);text-decoration:none}
+  .foot a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="termbar"><span class="dots"><i></i><i></i><i></i></span><nav class="nav" aria-label="Tools"><a href="../../">calculator</a><a href="../../glossary/" aria-current="page">glossary</a><a href="../../vs/">vs</a><a href="../../diagnostic/">diagnostic</a><a href="../../lead-finder/">lead-finder</a></nav><span class="tag">GTM</span></div>
+<p class="crumb"><a href="../../glossary/">glossary</a><span class="sep">/</span>Ideal Customer Profile (ICP)</p>
+<p class="kick"><span class="m">glossary</span> term</p>
+<h1>Ideal Customer Profile (ICP)</h1>
+<div class="def"><p class="lbl">Definition</p><p>An <b>ideal customer profile (ICP)</b> is the set of firmographic and behavioral criteria that define the accounts worth your time. The operator's version is not a persona document. It is a testable filter, specific enough to disqualify most of the market on purpose.</p></div>
+<h2>A filter, not a persona</h2>
+<p>A lot of ICP work produces a slide with a smiling avatar named Marketing Mary. That does not help you decide who to work on Monday. A useful ICP is a set of rules you can run against a list: segment, size, stage, geography, motion, and the disqualifiers. If it does not throw most companies out, it is not specific enough to be doing any work.</p>
+<h2>What goes in it</h2>
+<p>Hard filters define who is in range at all: is this B2B SaaS, are they the right size and revenue stage, are they in a market you serve, do they run the kind of motion your product fits. Then the softer layer, the <a class="lnk" href="../../glossary/buying-signal/">buying signals</a>, ranks the ones that are in range by who is most likely in-market now. Fit gets you the list. Signal orders it. That two-part split is the backbone of <a class="lnk" href="../../glossary/lead-scoring/">lead scoring</a>.</p>
+<h2>Score the buyer, not the product</h2>
+<p>One trap worth naming. When you score accounts, score whether this company is a buyer for you, not what their product does or who their customers are. A founder who builds a CRM, a dev tool, or an AI product is still a B2B SaaS founder running their own go-to-market. The product vertical is usually irrelevant. The buyer's role and stage are what matter. Getting this backwards throws out good accounts because you judged their category instead of their situation.</p>
+<aside class="related"><p class="lbl">Related terms</p><ul><li><a href="../../glossary/buying-signal/">Buying Signal (Intent Signal)</a></li><li><a href="../../glossary/lead-scoring/">Lead Scoring</a></li><li><a href="../../glossary/go-to-market-motion/">Go-to-Market Motion</a></li><li><a href="../../glossary/enrichment/">Data Enrichment</a></li></ul></aside>
+<p class="crumb" style="margin-top:26px">Free tools <span class="sep">&middot;</span> <a href="../../">value calculator</a> <span class="sep">&middot;</span> <a href="../../diagnostic/">60-second diagnostic</a> <span class="sep">&middot;</span> <a href="../../lead-finder/">lead finder</a></p>
+<section class="cta">
+    <p class="lbl">The harder question</p>
+    <div class="h">Who is going to <b>build the fix?</b></div>
+    <p class="p">Knowing the concept is step one. Getting a working system shipped into your live stack, in weeks, is the job. That is what a fractional GTM engineer does: find the one lever, build the first working fix, hand you a system a hire can run.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://call.marianomartene.com/marianomartene/15min">Book a 15-min call</a>
+      <a class="btn ghost" href="https://marianomartene.com">See how it works</a>
+    </div>
+  </section>
+  <div class="foot"><span>Built by a Fractional GTM Engineer who would rather show the work.</span><a href="https://marianomartene.com">marianomartene.com</a></div>
+</div>
+</body>
+</html>

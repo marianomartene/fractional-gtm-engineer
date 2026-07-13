@@ -101,6 +101,19 @@ the kind of thing the job is now.
 
 ---
 
+## More free tools
+
+Live at [tools.marianomartene.com](https://tools.marianomartene.com/):
+
+- [The value calculator](https://tools.marianomartene.com/) - what your GTM leak is worth in ARR
+- [The 60-second diagnostic](https://tools.marianomartene.com/diagnostic/) - is the Process-Market Fit gap real yet
+- [Free lead finder](https://tools.marianomartene.com/lead-finder/) - ~15 ICP-fit accounts with a live buying signal, sent to your inbox
+- [GTM glossary](https://tools.marianomartene.com/glossary/) - plain-English definitions for the GTM-engineering vocabulary
+- [Fractional GTM Engineer: honest comparisons](https://tools.marianomartene.com/vs/) - vs full-time hire, agency, RevOps consultant, fractional CMO
+- [awesome-fractional-gtm](./awesome-fractional-gtm/) - a curated list of the operators, tools, and playbooks in this space
+
+---
+
 ## Who built this
 
 **[Mariano Martene](https://marianomartene.com)** is a GTM Engineer and
