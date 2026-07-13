@@ -1,0 +1,8 @@
+{
+  "name": "gtm-tools",
+  "compatibility_date": "2026-07-01",
+  "pages_build_output_dir": ".",
+  "kv_namespaces": [
+    { "binding": "LEADS", "id": "8e2b7b6705684c1194befb4d4ce1cca9" }
+  ]
+}
