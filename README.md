@@ -110,7 +110,7 @@ Live at [tools.marianomartene.com](https://tools.marianomartene.com/):
 - [Free lead finder](https://tools.marianomartene.com/lead-finder/) - ~15 ICP-fit accounts with a live buying signal, sent to your inbox
 - [GTM glossary](https://tools.marianomartene.com/glossary/) - plain-English definitions for the GTM-engineering vocabulary
 - [Fractional GTM Engineer: honest comparisons](https://tools.marianomartene.com/vs/) - vs full-time hire, agency, RevOps consultant, fractional CMO
-- [awesome-fractional-gtm](./awesome-fractional-gtm/) - a curated list of the operators, tools, and playbooks in this space
+- [awesome-fractional-gtm](https://github.com/marianomartene/awesome-fractional-gtm) - a curated list of the operators, tools, and playbooks in this space (also live at [tools.marianomartene.com/awesome-fractional-gtm/](https://tools.marianomartene.com/awesome-fractional-gtm/))
 
 ---
 
